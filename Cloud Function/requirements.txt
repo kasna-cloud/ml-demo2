@@ -3,5 +3,5 @@
 functions_framework
 google-cloud-aiplatform
 typing
-tensorflow
+#tensorflow
 pandas

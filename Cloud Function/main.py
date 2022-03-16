@@ -133,16 +133,15 @@ def get_purchase_prediction(packet: Dict[Text, Any]) -> int:
   serialized_example = serialize_example(**packet)
   b64_example = base64.b64encode(serialized_example).decode("utf-8")
 
-  instances_packet = [{
+  instances_packet = {
     "examples": {
       "b64": b64_example
     }
-  }]
+  }
 
-  prediction = aiplatform_predict_endpoint.predict(instances=instances_packet)
-  prediction_value = prediction[0][0][0]
+  return instances_packet  
 
-  return prediction_value
+  #return prediction_value
 
 def validate_packet(packet: Dict[Text, Any]) -> Tuple[bool, Text]:
   """ 
@@ -189,6 +188,7 @@ def inference(request):
 
   # Array to store results
   results = []
+  instances_packet = []
 
   # Get purchase predictions
   for product_id in recommendations:
@@ -211,12 +211,18 @@ def inference(request):
     packet['Marital_Status'] = user_row['Marital_Status']
 
     # Get prediction
-    prediction_value = get_purchase_prediction(packet)
+    prediction_packet = get_purchase_prediction(packet)
+    instances_packet.append(prediction_packet)
 
     # Add prediction to results
-    results.append(prediction_value)
+    #results.append(prediction_value)
+
+
+  prediction = aiplatform_predict_endpoint.predict(instances=instances_packet)
+  print(prediction)
+  prediction_values = prediction[0][0]
   
-  results_sum = sum(results)
+  results_sum = sum(prediction_values)
   print(f"Sum: {results_sum}")
     
   return { 
