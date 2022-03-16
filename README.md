@@ -18,7 +18,7 @@ To get an inference from the model a query needs to be made to the cloud functio
 
 ```
 {
-  "User_ID: <Valid User_ID>
+  "User_ID: 1000047 #A Valid User_ID (Int)
 }
 ```
 
