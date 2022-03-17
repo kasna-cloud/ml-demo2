@@ -14,12 +14,14 @@ This demo builds a recommender model to address these business goals. A recommen
 
 
 ## Get User Inference
-To get an inference from the model a query needs to be made to the cloud function with the packet structure: 
+To get an inference from the model a HTTP POST query needs to be made to the cloud function with the packet structure: 
 
 ```
 {
   "User_ID: 1000047 #A Valid User_ID (Int)
 }
 ```
+
+to the URL: https://australia-southeast1-ml-spec-demo-2-sandbox.cloudfunctions.net/BFS_inference
 
 The cloud function will then gather the top 10 Product_IDs the user is most_likely to buy, the User's profile, and Product Information before returning a summation of the Users expected spenditure for the month on these products.
